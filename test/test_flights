@@ -1,0 +1,46 @@
+import requests
+import json
+
+def flight_alerts():
+    # Define the API URL for SerpAPI
+    url = "https://serpapi.com/search"
+
+    # Define the API parameters (ensure `departure_id` and `arrival_id` are provided)
+    params = {
+        "engine": "google_flights",  # Specific to SerpAPI
+        "departure_airport": "JFK",  # Departure airport
+        "arrival_airport": "LAX",    # Arrival airport
+        "departure_id": "JFK",       # Departure ID (matches the airport code)
+        "arrival_id": "LAX",         # Arrival ID (matches the airport code)
+        "outbound_date": "2025-01-28",  # Outbound date
+        "return_date": "2025-02-04",    # Return date
+        "type": "1",                   # Flight type: Round trip
+        "travel_class": "1",           # Travel class: Economy
+        "api_key": "53d9fd1c3e062f61e19ecd0ef6b5a10a167938230c1b9723588aaf141bbd6e0e"  # Replace with your actual API key
+    }
+
+    try:
+        # Make the API request
+        response = requests.get(url, params=params)
+
+        # Check if the response is successful
+        if response.status_code == 200:
+            data = response.json()
+            flights = data.get("flights", [])
+            if flights:
+                for flight in flights:
+                    price = flight.get("price", "Not available")
+                    print(f"Flight Details: {json.dumps(flight, indent=2)}")
+                    print(f"Price: {price}")
+            else:
+                print("No flights found.")
+        else:
+            print(f"Error fetching flights: {response.status_code}")
+            print(response.text)
+
+    except Exception as e:
+        print("An error occurred:", str(e))
+
+# Run the function
+if __name__ == "__main__":
+    flight_alerts()

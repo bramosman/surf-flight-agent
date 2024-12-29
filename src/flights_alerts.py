@@ -1,11 +1,17 @@
 # flight_alerts.py
 
 import requests
-from config import FLIGHT_API_KEY
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Retrieve the FLIGHT_API_KEY from environment variables
+FLIGHT_API_KEY = os.getenv("FLIGHT_API_KEY")
 
 def get_flight_prices(source, destination, date):
-    """Fetches roundtrip flight prices from the specified departure airport to the destination."""
-    url = f"https://api.flightapi.com/roundtrip"
+    url = "https://serpapi.com/search"
     params = {
         "source": source,
         "destination": destination,
