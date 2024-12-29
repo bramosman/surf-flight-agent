@@ -1,0 +1,36 @@
+import requests
+
+# StormGlass API key
+api_key = '9371503e-c583-11ef-a0d5-0242ac130003-93715098-c583-11ef-a0d5-0242ac130003'
+
+# StormGlass API URL
+forecast_url = 'https://api.stormglass.io/v2/weather/point'
+
+# Coordinates (latitude, longitude)
+latitude = 34.0522  # Example: Los Angeles
+longitude = -118.2437
+
+# Parameters with just waveHeight
+params = {
+    'lat': latitude,
+    'lng': longitude,
+    'start': '2024-12-28T00:00:00Z',  # Example: Start time for the forecast
+    'end': '2024-12-28T12:00:00Z',    # Example: End time for the forecast
+    'params': 'waveHeight',  # Requesting only waveHeight
+}
+
+# Headers with authorization (API key)
+headers = {
+    'Authorization': api_key
+}
+
+# Make the request
+response = requests.get(forecast_url, params=params, headers=headers)
+
+# Handle response
+if response.status_code == 200:
+    print('Data pulled successfully:')
+    print(response.json())  # Print returned JSON data
+else:
+    print(f"Failed to fetch data: {response.status_code}")
+    print("Response text:", response.text)  # Print the response text for debugging
